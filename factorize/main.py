@@ -1,6 +1,7 @@
+from time import time
 from datetime import datetime
 from multiprocessing import cpu_count, Pool
-from time import time
+from concurrent.futures import ProcessPoolExecutor
 
 
 def factorize(*numbers):
@@ -50,4 +51,14 @@ if __name__ == "__main__":
     total_time_2 = end_time_2 - start_time_2
     print(f"Total time for pool counting process is {round(total_time_2, 3)} seconds\n")
 
+    print("-----------------------------------------------------------------")
+    start_time_3 = time()
+    print(f"Concurrent futures counting process is started at {datetime.now()}")
+    with ProcessPoolExecutor(max_workers=total_cpu) as executor:
+        executor.map(factorize, test_numbers)
+    end_time_3 = time()
+    print(f"Concurrent futures counting process is finished at {datetime.now()}")
+    total_time_3 = end_time_3 - start_time_3
+    print(
+        f"Total time for concurrent futures counting process is {round(total_time_3, 3)} seconds\n")
 
